@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magyar Manga — Képregény Világa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:     #C8102E;
+      --red-dk:  #8B0A1E;
+      --red-lt:  #F5D0D7;
+      --green:   #2D6A2D;
+      --green-lt:#E8F4E8;
+      --cream:   #F9F4EC;
+      --ink:     #1A1108;
+      --gold:    #C9983A;
+      --gold-lt: #F2E4C0;
+      --border:  #D4B896;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── FOLK PATTERN HEADER ── */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--ink);
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .pattern-strip {
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0px, var(--red) 12px,
+        var(--gold) 12px, var(--gold) 16px,
+        var(--green) 16px, var(--green) 28px,
+        var(--gold) 28px, var(--gold) 32px
+      );
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 3rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .logo-tulip {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      line-height: 1;
+    }
+
+    .logo-text .main {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-text .sub {
+      display: block;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #d4c9b8;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A1108'%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3Ccircle cx='0' cy='0' r='3'/%3E%3Ccircle cx='80' cy='0' r='3'/%3E%3Ccircle cx='0' cy='80' r='3'/%3E%3Ccircle cx='80' cy='80' r='3'/%3E%3Ccircle cx='40' cy='0' r='1.5'/%3E%3Ccircle cx='40' cy='80' r='1.5'/%3E%3Ccircle cx='0' cy='40' r='1.5'/%3E%3Ccircle cx='80' cy='40' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .hero-subtitle {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: #4a3f32;
+      max-width: 460px;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #fff;
+      background: var(--red);
+      border: none;
+      padding: 0.85rem 2.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dk);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--green);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--green);
+      padding-bottom: 2px;
+      transition: gap 0.2s;
+    }
+
+    .btn-secondary:hover { gap: 0.9rem; }
+
+    /* ── HERO RIGHT: Decorative manga panels ── */
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(201,152,58,0.04) 30px,
+        rgba(201,152,58,0.04) 31px
+      );
+      z-index: 0;
+    }
+
+    .manga-panels {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      padding: 3px;
+    }
+
+    .panel {
+      background: #111;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .panel:first-child {
+      grid-row: 1 / 3;
+    }
+
+    .panel-content {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.05);
+      user-select: none;
+      line-height: 1;
+    }
+
+    .panel-tag {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+    }
+
+    .panel-number {
+      position: absolute;
+      bottom: 12px; right: 16px;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+    }
+
+    .panel-border-ornament {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+    }
+
+    /* ── ORNAMENT DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 3rem 6rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-motif {
+      flex-shrink: 0;
+    }
+
+    /* ── FEATURED / NEW RELEASES ── */
+    .section {
+      padding: 2rem 6rem 5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .section-title-ja {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .manga-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .manga-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.25s;
+    }
+
+    .manga-card:hover { transform: translateY(-6px); }
+
+    .manga-cover {
+      aspect-ratio: 3/4;
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .manga-cover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,17,8,0.7) 0%, transparent 50%);
+    }
+
+    .manga-cover-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3.5rem;
+      color: rgba(255,255,255,0.12);
+      position: relative;
+    }
+
+    .manga-cover-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .manga-badge {
+      position: absolute;
+      top: 12px; right: 0;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      z-index: 2;
+    }
+
+    .manga-cover-title {
+      position: absolute;
+      bottom: 14px; left: 14px; right: 14px;
+      z-index: 2;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .manga-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .manga-genre {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .manga-author {
+      font-size: 0.9rem;
+      color: #6b5c4c;
+      font-style: italic;
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      background: var(--ink);
+      color: #fff;
+      padding: 5rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-strip::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0, var(--red) 20px,
+        var(--gold) 20px, var(--gold) 25px,
+        var(--green) 25px, var(--green) 45px,
+        var(--gold) 45px, var(--gold) 50px
+      );
+    }
+
+    .about-label {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-heading em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .about-body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #c0b5a8;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-content: center;
+    }
+
+    .stat-item {
+      border-left: 3px solid var(--red);
+      padding-left: 1.2rem;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .stat-number span {
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: #8a7d72;
+      margin-top: 0.3rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── BLOG PREVIEW ── */
+    .blog-preview {
+      padding: 5rem 6rem;
+      background: var(--green-lt);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .blog-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .blog-card:hover {
+      box-shadow: 4px 4px 0 var(--border);
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--green);
+    }
+
+    .blog-card.featured::before {
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      height: 4px;
+    }
+
+    .blog-date {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+      color: var(--ink);
+    }
+
+    .blog-card.featured .blog-card-title {
+      font-size: 1.6rem;
+    }
+
+    .blog-excerpt {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #6b5c4c;
+    }
+
+    .blog-read-more {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #8a7d72;
+      padding: 4rem 6rem 2rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand .logo-text .main {
+      font-size: 1.8rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-top: 1rem;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-col ul a {
+      color: #8a7d72;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover { color: #fff; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .footer-bottom .pattern-inline {
+      display: flex;
+      gap: 6px;
+    }
+
+    .footer-bottom .pattern-inline span {
+      width: 20px;
+      height: 3px;
+      border-radius: 1px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .fade-up-1 { animation-delay: 0.1s; }
+    .fade-up-2 { animation-delay: 0.25s; }
+    .fade-up-3 { animation-delay: 0.4s; }
+    .fade-up-4 { animation-delay: 0.55s; }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="pattern-strip"></div>
+    <nav>
+      <a href="index.html" class="logo">
+        <!-- Tulip SVG (Hungarian folk symbol) -->
+        <svg class="logo-tulip" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 36 C20 36 10 28 10 18 C10 12 14 8 20 8 C26 8 30 12 30 18 C30 28 20 36 20 36Z" fill="#C8102E"/>
+          <path d="M20 8 C20 8 16 4 12 5 C10 6 10 10 12 12 C14 14 20 14 20 8Z" fill="#2D6A2D"/>
+          <path d="M20 8 C20 8 24 4 28 5 C30 6 30 10 28 12 C26 14 20 14 20 8Z" fill="#2D6A2D"/>
+          <line x1="20" y1="36" x2="20" y2="38" stroke="#C9983A" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="4" fill="rgba(255,255,255,0.25)"/>
+        </svg>
+        <div class="logo-text">
+          <span class="main">Magyar Manga</span>
+          <span class="sub">マジャル・マンガ</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Főoldal</a></li>
+        <li><a href="translation.html">Fordítás</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="gallery.html">Galéria</a></li>
+        <li><a href="contact.html">Kapcsolat</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-pattern"></div>
+
+    <div class="hero-left">
+      <div class="hero-eyebrow fade-up fade-up-1">Magyar nyelvű képregény oldal</div>
+      <h1 class="hero-title fade-up fade-up-2">
+        Manga<br><em>Világa</em><br>Magyarul
+      </h1>
+      <p class="hero-subtitle fade-up fade-up-3">マンガの世界へようこそ</p>
+      <p class="hero-desc fade-up fade-up-3">
+        Fedezze fel a japán manga világát anyanyelvén. Fordítások, elemzések, galériák és közösség — mind egy helyen, a magyar olvasóknak.
+      </p>
+      <div class="hero-cta-group fade-up fade-up-4">
+        <a href="gallery.html" class="btn-primary">Galéria megtekintése</a>
+        <a href="translation.html" class="btn-secondary">Fordítási napló &rarr;</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="manga-panels">
+        <!-- Panel 1: large left -->
+        <div class="panel">
+          <div class="manga-cover-bg" style="background: linear-gradient(135deg, #1a1108 0%, #2d1a0e 100%);"></div>
+          <div class="panel-content" style="font-size:8rem; color:rgba(201,152,58,0.12);">漫</div>
+          <div class="panel-tag">ÚJ FEJEZET</div>
+          <div class="panel-number">01</div>
+          <div class="panel-border-ornament"></div>
+          <!-- Decorative tulip watermark -->
+          <svg style="position:absolute;bottom:40px;right:20px;opacity:0.08;width:80px;height:80px;" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 36 C20 36 10 28 10 18 C10 12 14 8 20 8 C26 8 30 12 30 18 C30 28 20 36 20 36Z" fill="#C9983A"/>
+            <path d="M20 8 C20 8 16 4 12 5 C10 6 10 10 12 12 C14 14 20 14 20 8Z" fill="#C9983A"/>
+            <path d="M20 8 C20 8 24 4 28 5 C30 6 30 10 28 12 C26 14 20 14 20 8Z" fill="#C9983A"/>
+          </svg>
+        </div>
+        <!-- Panel 2: top right -->
+        <div class="panel">
+          <div class="manga-cover-bg" style="background:#1e0d0d;"></div>
+          <div class="panel-content" style="font-size:3rem; color:rgba(200,16,46,0.15);">画</div>
+          <div class="panel-tag" style="background:var(--green);">FORDÍTÁS</div>
+          <div class="panel-number" style="font-size:2.5rem;">02</div>
+        </div>
+        <!-- Panel 3: bottom right -->
+        <div class="panel">
+          <div class="manga-cover-bg" style="background:#0d1a0d;"></div>
+          <div class="panel-content" style="font-size:3rem; color:rgba(45,106,45,0.2);">物</div>
+          <div class="panel-tag" style="background:var(--gold); color:var(--ink);">BLOG</div>
+          <div class="panel-number" style="font-size:2.5rem;">03</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-motif">
+      <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="12" r="6" fill="none" stroke="#C9983A" stroke-width="1"/>
+        <circle cx="30" cy="12" r="2" fill="#C9983A"/>
+        <line x1="0" y1="12" x2="22" y2="12" stroke="#D4B896" stroke-width="0.8"/>
+        <line x1="38" y1="12" x2="60" y2="12" stroke="#D4B896" stroke-width="0.8"/>
+        <path d="M26 12 C26 8 24 6 22 6" stroke="#C8102E" stroke-width="0.8" fill="none"/>
+        <path d="M34 12 C34 8 36 6 38 6" stroke="#C8102E" stroke-width="0.8" fill="none"/>
+        <path d="M26 12 C26 16 24 18 22 18" stroke="#2D6A2D" stroke-width="0.8" fill="none"/>
+        <path d="M34 12 C34 16 36 18 38 18" stroke="#2D6A2D" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- NEW RELEASES -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <span class="section-title-ja">最新リリース</span>
+        <h2 class="section-title">Legújabb Fordítások</h2>
+      </div>
+      <a href="translation.html" class="section-link">Összes megtekintése →</a>
+    </div>
+    <div class="manga-grid">
+
+      <!-- Card 1 -->
+      <div class="manga-card">
+        <div class="manga-cover">
+          <div class="manga-cover-bg" style="background: linear-gradient(135deg, #1a0a1a 0%, #3d1a3d 100%);"></div>
+          <div class="manga-badge">ÚJ</div>
+          <div class="manga-cover-inner" style="color:rgba(200,16,46,0.2); font-size:5rem;">幽</div>
+          <div class="manga-cover-title">Éjféli Virágok</div>
+        </div>
+        <div class="manga-meta">
+          <span class="manga-genre">Shoujo · Fantasy</span>
+          <span class="manga-author">Tanaka Yuki</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="manga-card">
+        <div class="manga-cover">
+          <div class="manga-cover-bg" style="background: linear-gradient(135deg, #0a1a0a 0%, #1a3d1a 100%);"></div>
+          <div class="manga-badge" style="background:var(--green);">FOLYTATÁS</div>
+          <div class="manga-cover-inner" style="color:rgba(45,106,45,0.25); font-size:5rem;">剣</div>
+          <div class="manga-cover-title">A Pengék Dala</div>
+        </div>
+        <div class="manga-meta">
+          <span class="manga-genre">Shonen · Akció</span>
+          <span class="manga-author">Watanabe Kenji</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="manga-card">
+        <div class="manga-cover">
+          <div class="manga-cover-bg" style="background: linear-gradient(135deg, #1a1000 0%, #3d2800 100%);"></div>
+          <div class="manga-cover-inner" style="color:rgba(201,152,58,0.2); font-size:5rem;">龍</div>
+          <div class="manga-cover-title">Az Utolsó Sárkány</div>
+        </div>
+        <div class="manga-meta">
+          <span class="manga-genre">Seinen · Mitológia</span>
+          <span class="manga-author">Ishida Ryu</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="manga-card">
+        <div class="manga-cover">
+          <div class="manga-cover-bg" style="background: linear-gradient(135deg, #1a0000 0%, #3d0000 100%);"></div>
+          <div class="manga-badge" style="background:var(--gold); color:var(--ink);">HAMAROSAN</div>
+          <div class="manga-cover-inner" style="color:rgba(200,16,46,0.2); font-size:5rem;">魂</div>
+          <div class="manga-cover-title">Lélek Piaca</div>
+        </div>
+        <div class="manga-meta">
+          <span class="manga-genre">Josei · Dráma</span>
+          <span class="manga-author">Nakamura Hana</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div>
+      <div class="about-label">RÓLUNK · サイトについて</div>
+      <h2 class="about-heading">Manga <em>szívvel</em>,<br>Magyar lélekkel</h2>
+      <p class="about-body">
+        A Magyar Manga oldal szenvedélyes rajongók által vezetett platform, amely a japán képregény kultúrát közelebb hozza a magyar olvasókhoz. Minden fordítás szeretettel és gonddal készül, hogy a manga varázslata teljesen átjöjjön anyanyelvünkön.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-number">120<span>+</span></div>
+        <div class="stat-label">lefordított fejezet</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">34<span></span></div>
+        <div class="stat-label">sorozat</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5<span>k</span></div>
+        <div class="stat-label">olvasó havonta</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3<span></span></div>
+        <div class="stat-label">aktív fordító</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG PREVIEW -->
+  <section class="blog-preview">
+    <div class="section-header">
+      <div>
+        <span class="section-title-ja">最新記事</span>
+        <h2 class="section-title">Legfrissebb Cikkek</h2>
+      </div>
+      <a href="blog.html" class="section-link">Blog megtekintése →</a>
+    </div>
+    <div class="blog-grid">
+
+      <div class="blog-card featured">
+        <div class="blog-date">2025. MÁJUS 18.</div>
+        <h3 class="blog-card-title">A magyar manga közösség születése: hogyan jutott el hozzánk a japán képregény?</h3>
+        <p class="blog-excerpt">A manga Magyarországra érkezésének történelmi útja — az első fordítástól a mai élénk online közösségig. Évtizedes kaland sajtón, interneten és rajongói lelkesedésen át.</p>
+        <a href="blog.html" class="blog-read-more">Tovább olvasom →</a>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-date">2025. MÁJUS 10.</div>
+        <h3 class="blog-card-title">5 shonen manga, amit minden magyar rajongónak ismernie kell</h3>
+        <p class="blog-excerpt">Ajánlónk azoknak, akik most ismerkednek a műfajjal.</p>
+        <a href="blog.html" class="blog-read-more">Tovább →</a>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-date">2025. MÁJUS 3.</div>
+        <h3 class="blog-card-title">Fordítói napló: kihívások a japán–magyar átültetésben</h3>
+        <p class="blog-excerpt">Miért olyan nehéz a japán szójátékokat magyarra fordítani?</p>
+        <a href="blog.html" class="blog-read-more">Tovább →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="margin-bottom:1rem; display:inline-flex;">
+          <svg class="logo-tulip" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 36 C20 36 10 28 10 18 C10 12 14 8 20 8 C26 8 30 12 30 18 C30 28 20 36 20 36Z" fill="#C8102E"/>
+            <path d="M20 8 C20 8 16 4 12 5 C10 6 10 10 12 12 C14 14 20 14 20 8Z" fill="#2D6A2D"/>
+            <path d="M20 8 C20 8 24 4 28 5 C30 6 30 10 28 12 C26 14 20 14 20 8Z" fill="#2D6A2D"/>
+            <circle cx="20" cy="20" r="4" fill="rgba(255,255,255,0.15)"/>
+          </svg>
+          <div class="logo-text">
+            <span class="main">Magyar Manga</span>
+            <span class="sub">マジャル・マンガ</span>
+          </div>
+        </a>
+        <p>Magyar nyelvű manga oldal szenvedélyes rajongóknak. Fordítások, hírek és közösség egy helyen.</p>
+      </div>
+      <div class="footer-col">
+        <h4>OLDALAK</h4>
+        <ul>
+          <li><a href="index.html">Főoldal</a></li>
+          <li><a href="translation.html">Fordítási napló</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="gallery.html">Galéria</a></li>
+          <li><a href="contact.html">Kapcsolat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>MŰFAJOK</h4>
+        <ul>
+          <li><a href="#">Shonen</a></li>
+          <li><a href="#">Shoujo</a></li>
+          <li><a href="#">Seinen</a></li>
+          <li><a href="#">Josei</a></li>
+          <li><a href="#">Isekai</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>KÖZÖSSÉG</h4>
+        <ul>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">RSS Feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Magyar Manga — Minden jog fenntartva</span>
+      <div class="pattern-inline">
+        <span style="background:var(--red);"></span>
+        <span style="background:var(--gold);"></span>
+        <span style="background:var(--green);"></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
