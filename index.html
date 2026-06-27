@@ -720,6 +720,221 @@
     .fade-up-2 { animation-delay: 0.25s; }
     .fade-up-3 { animation-delay: 0.4s; }
     .fade-up-4 { animation-delay: 0.55s; }
+
+    /* ── HAMBURGER MENU ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--ink);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .mobile-drawer.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-drawer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0px, var(--red) 12px,
+        var(--gold) 12px, var(--gold) 16px,
+        var(--green) 16px, var(--green) 28px,
+        var(--gold) 28px, var(--gold) 32px
+      );
+    }
+
+    .mobile-drawer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      width: 100%;
+      padding: 2rem 0;
+    }
+
+    .mobile-drawer ul li a {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #d4c9b8;
+      text-decoration: none;
+      padding: 0.6rem 2rem;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .mobile-drawer ul li a:hover,
+    .mobile-drawer ul li a.active { color: var(--gold); }
+
+    .mobile-drawer-tulip {
+      opacity: 0.08;
+      position: absolute;
+      bottom: 3rem;
+    }
+
+    /* ── TABLET (≤900px) ── */
+    @media (max-width: 900px) {
+      nav { padding: 0.75rem 1.5rem; }
+
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .mobile-drawer { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-left {
+        padding: 5rem 2rem 3rem;
+      }
+
+      .hero-right {
+        height: 280px;
+      }
+
+      .divider { padding: 2rem 2rem; }
+
+      .section { padding: 2rem 2rem 3rem; }
+
+      .manga-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .about-strip {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 4rem 2rem;
+      }
+
+      .blog-preview {
+        padding: 3rem 2rem;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer { padding: 3rem 2rem 2rem; }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .footer-brand { grid-column: 1 / -1; }
+    }
+
+    /* ── MOBILE (≤480px) ── */
+    @media (max-width: 480px) {
+      .pattern-strip { height: 5px; }
+
+      .logo-text .main { font-size: 1.2rem; }
+      .logo-text .sub { display: none; }
+      .logo-tulip { width: 32px; height: 32px; }
+
+      .hero-left { padding: 4rem 1.25rem 2.5rem; }
+
+      .hero-title { font-size: 2.6rem; }
+
+      .hero-desc { font-size: 1rem; margin-bottom: 2rem; }
+
+      .hero-right { height: 220px; }
+
+      .hero-cta-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .btn-primary { width: 100%; text-align: center; }
+
+      .divider { padding: 1.5rem 1.25rem; }
+
+      .section { padding: 1.5rem 1.25rem 2.5rem; }
+
+      .section-title { font-size: 1.6rem; }
+
+      .manga-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+
+      .manga-cover-title { font-size: 0.85rem; }
+
+      .about-strip { padding: 3rem 1.25rem; }
+
+      .about-heading { font-size: 1.9rem; }
+
+      .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .stat-number { font-size: 2.2rem; }
+
+      .blog-preview { padding: 2.5rem 1.25rem; }
+
+      .blog-card { padding: 1.25rem; }
+
+      .blog-card.featured .blog-card-title { font-size: 1.25rem; }
+
+      footer { padding: 2.5rem 1.25rem 1.5rem; }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .mobile-drawer ul li a { font-size: 1.8rem; }
+    }
   </style>
 </head>
 
@@ -750,8 +965,27 @@
         <li><a href="gallery.html">Galéria</a></li>
         <li><a href="contact.html">Kapcsolat</a></li>
       </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü megnyitása">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <ul>
+      <li><a href="index.html" class="active">Főoldal</a></li>
+      <li><a href="translation.html">Fordítás</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html">Galéria</a></li>
+      <li><a href="contact.html">Kapcsolat</a></li>
+    </ul>
+    <svg class="mobile-drawer-tulip" width="100" height="100" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 36 C20 36 10 28 10 18 C10 12 14 8 20 8 C26 8 30 12 30 18 C30 28 20 36 20 36Z" fill="#C8102E"/>
+      <path d="M20 8 C20 8 16 4 12 5 C10 6 10 10 12 12 C14 14 20 14 20 8Z" fill="#2D6A2D"/>
+      <path d="M20 8 C20 8 24 4 28 5 C30 6 30 10 28 12 C26 14 20 14 20 8Z" fill="#2D6A2D"/>
+    </svg>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -1014,5 +1248,21 @@
     </div>
   </footer>
 
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const drawer = document.getElementById('mobileDrawer');
+    toggle.addEventListener('click', () => {
+      const isOpen = drawer.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    drawer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        toggle.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
 </body>
 </html>
