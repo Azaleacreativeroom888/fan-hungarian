@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Magyar Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:     #C8102E;
+      --green:   #2D6A2D;
+      --green-lt:#E8F4E8;
+      --cream:   #F9F4EC;
+      --ink:     #1A1108;
+      --gold:    #C9983A;
+      --border:  #D4B896;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--ink);
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .pattern-strip {
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0px, var(--red) 12px,
+        var(--gold) 12px, var(--gold) 16px,
+        var(--green) 16px, var(--green) 28px,
+        var(--gold) 28px, var(--gold) 32px
+      );
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 3rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .logo-tulip { width: 40px; height: 40px; flex-shrink: 0; }
+
+    .logo-text .main {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-text .sub {
+      display: block;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #d4c9b8;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── HAMBURGER ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .mobile-drawer.open { opacity: 1; pointer-events: all; }
+
+    .mobile-drawer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0px, var(--red) 12px,
+        var(--gold) 12px, var(--gold) 16px,
+        var(--green) 16px, var(--green) 28px,
+        var(--gold) 28px, var(--gold) 32px
+      );
+    }
+
+    .mobile-drawer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 2rem 0;
+    }
+
+    .mobile-drawer ul li a {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #d4c9b8;
+      text-decoration: none;
+      padding: 0.6rem 2rem;
+      transition: color 0.2s;
+    }
+
+    .mobile-drawer ul li a:hover,
+    .mobile-drawer ul li a.active { color: var(--gold); }
+
+    /* ── BLOG MAIN ── */
+    .blog-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 120px 2rem 6rem;
+    }
+
+    .blog-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .blog-heading-ja {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+
+    /* thin rule under heading */
+    .blog-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    /* ── DIARY ENTRIES ── */
+    .entry {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 2rem;
+      padding-bottom: 2.2rem;
+      margin-bottom: 2.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .entry:last-child {
+      border-bottom: none;
+    }
+
+    .entry-date {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      padding-top: 0.2rem;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    .entry-body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #3a3028;
+    }
+
+    .entry-body p + p {
+      margin-top: 0.9em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #8a7d72;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .footer-pattern {
+      display: flex;
+      gap: 6px;
+    }
+
+    .footer-pattern span {
+      width: 20px;
+      height: 3px;
+      border-radius: 1px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1.25rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .mobile-drawer { display: flex; }
+
+      .blog-wrap { padding: 100px 1.25rem 4rem; }
+
+      .entry {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+      }
+
+      .entry-date { padding-top: 0; }
+
+      footer {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1.5rem 1.25rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="pattern-strip"></div>
+    <nav>
+      <a href="index.html" class="logo">
+        <svg class="logo-tulip" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 36 C20 36 10 28 10 18 C10 12 14 8 20 8 C26 8 30 12 30 18 C30 28 20 36 20 36Z" fill="#C8102E"/>
+          <path d="M20 8 C20 8 16 4 12 5 C10 6 10 10 12 12 C14 14 20 14 20 8Z" fill="#2D6A2D"/>
+          <path d="M20 8 C20 8 24 4 28 5 C30 6 30 10 28 12 C26 14 20 14 20 8Z" fill="#2D6A2D"/>
+          <line x1="20" y1="36" x2="20" y2="38" stroke="#C9983A" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="4" fill="rgba(255,255,255,0.25)"/>
+        </svg>
+        <div class="logo-text">
+          <span class="main">Magyar Manga</span>
+          <span class="sub">マジャル・マンガ</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Főoldal</a></li>
+        <li><a href="translation.html">Fordítás</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="gallery.html">Galéria</a></li>
+        <li><a href="contact.html">Kapcsolat</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü megnyitása">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <ul>
+      <li><a href="index.html">Főoldal</a></li>
+      <li><a href="translation.html">Fordítás</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="gallery.html">Galéria</a></li>
+      <li><a href="contact.html">Kapcsolat</a></li>
+    </ul>
+  </div>
+
+  <!-- BLOG -->
+  <main class="blog-wrap">
+    <h1 class="blog-heading">Blog</h1>
+    <span class="blog-heading-ja">ブログ日記</span>
+    <hr class="blog-rule" />
+
+    <article class="entry">
+      <div class="entry-date">2025.05.18</div>
+      <div class="entry-body">
+        <p>Ma befejeztem az Éjféli Virágok harmadik fejezetének fordítását. A párbeszédek elég nehezek voltak — rengeteg szójáték, amit szinte lehetetlen szó szerint visszaadni. Végül körülírással oldottam meg, de szerintem megmaradt a hangulat.</p>
+        <p>Holnap nekiállok a negyediknek.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-date">2025.05.14</div>
+      <div class="entry-body">
+        <p>Vásároltam néhány új képregényt a hétvégén. Az egyik egy ismeretlen mangaka debütáló műve — az első oldaltól fogva érezni, hogy valami különleges. Ilyen felfedezések miatt szeretem ezt az egészet.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-date">2025.05.10</div>
+      <div class="entry-body">
+        <p>Hosszú szünet után újra elővettem A Pengék Dalát. Az első néhány oldalnál belefutottam egy olyan terminusba, amire nem volt megfelelő magyar szó — végül egy régies, archaikus kifejezést találtam rá, ami szerintem tökéletesen illik a mű stílusához.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-date">2025.05.03</div>
+      <div class="entry-body">
+        <p>Elindult az oldal! Sokáig halogattam, de most végre itt van. Remélem, hogy más magyar manga-rajongóknak is hasznos lesz.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-date">2025.04.27</div>
+      <div class="entry-body">
+        <p>Egy régi shojo-mangát olvastam újra ma este. Ezek a kilencvenes évekbeli rajzok valami egészen más hangulatot árasztanak — a vonalak finomabbak, a csend hangosabb. Régen talán nem értettem ezt, most igen.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-date">2025.04.20</div>
+      <div class="entry-body">
+        <p>Megkaptam postán azt a limitált kiadású artbookot, amire már hetekkel ezelőtt vártam. Minden oldal lenyűgöző. A szerző tintakezelése egyedülálló — nehéz szavakba önteni, hogy miért, de az ember azonnal felismeri.</p>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>&copy; 2025 Magyar Manga</span>
+    <div class="footer-pattern">
+      <span style="background:#C8102E;"></span>
+      <span style="background:#C9983A;"></span>
+      <span style="background:#2D6A2D;"></span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const drawer = document.getElementById('mobileDrawer');
+    toggle.addEventListener('click', () => {
+      const isOpen = drawer.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    drawer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        toggle.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+
+</body>
+</html>
