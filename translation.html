@@ -15,6 +15,7 @@
       --green:   #2D6A2D;
       --green-lt:#E8F4E8;
       --cream:   #F9F4EC;
+      --cream-dk:#EFE5CC;
       --ink:     #1A1108;
       --gold:    #C9983A;
       --gold-lt: #FDF3DC;
@@ -197,119 +198,299 @@
     .mobile-drawer ul li a:hover,
     .mobile-drawer ul li a.active { color: var(--gold); }
 
-    /* ── MAIN WRAP ── */
-    .translation-wrap {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 120px 2rem 6rem;
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: var(--ink);
+      color: var(--cream);
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      margin-top: 67px; /* nav height */
+      position: relative;
+      overflow: hidden;
     }
 
-    .page-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-    }
-
-    .page-heading-ja {
+    .page-header::before {
+      content: '翻訳 訳 注 翻訳 訳 注 翻訳 訳 注';
+      position: absolute;
+      bottom: -6px; left: 0; right: 0;
+      font-size: 5rem;
+      opacity: 0.04;
+      letter-spacing: 10px;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
       color: var(--gold);
-      display: block;
-      margin-bottom: 2.5rem;
+      position: relative;
+      margin-bottom: 0.4rem;
     }
 
-    .page-rule {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin-bottom: 2.5rem;
+    .page-header p {
+      font-style: italic;
+      opacity: 0.6;
+      position: relative;
+      font-size: 1rem;
     }
 
-    /* ── ENTRY CARD ── */
-    .entry {
+    /* ── LAYOUT ── */
+    .layout {
+      max-width: 1040px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      display: flex;
+      gap: 2.2rem;
+      align-items: flex-start;
+    }
+
+    .main-col { flex: 3; min-width: 0; }
+    .sidebar-col { flex: 1; min-width: 190px; }
+
+    /* ── SIDEBAR ── */
+    .sidebar-block {
       background: #fff;
       border: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.4s ease both;
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      position: sticky;
+      top: 90px;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .sidebar-block h3 {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .entry:nth-child(1) { animation-delay: 0.05s; }
-    .entry:nth-child(2) { animation-delay: 0.10s; }
-    .entry:nth-child(3) { animation-delay: 0.15s; }
-    .entry:nth-child(4) { animation-delay: 0.20s; }
-    .entry:nth-child(5) { animation-delay: 0.25s; }
-    .entry:nth-child(6) { animation-delay: 0.30s; }
-
-    /* タイトルバー */
-    .entry-head {
-      background: var(--ink);
-      padding: 0.7rem 1.2rem;
+    .sidebar-link {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.6rem 0.4rem;
+      border-bottom: 1px dashed var(--border);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .sidebar-link:last-child { border-bottom: none; }
+
+    .sidebar-link::before {
+      content: '▶';
+      font-size: 0.5rem;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    .sidebar-link:hover { color: var(--red); padding-left: 0.5rem; }
+
+    /* ── NOTE CARD ── */
+    .note-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      margin-bottom: 1.8rem;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s;
+    }
+
+    .note-card.revealed { opacity: 1; transform: translateY(0); }
+    .note-card:hover { box-shadow: 4px 4px 0 var(--border); }
+
+    /* カードヘッダー */
+    .note-header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
       gap: 1rem;
     }
 
-    .entry-head h2 {
+    .note-number {
+      background: var(--gold);
+      color: var(--ink);
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
       font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .entry-tag {
+    .note-jp {
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .note-jp small {
+      display: block;
+      font-size: 0.65rem;
+      opacity: 0.55;
+      font-style: normal;
+      margin-top: 3px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      white-space: nowrap;
-      padding: 3px 10px;
-      border: 1px solid var(--gold);
+    }
+
+    /* 翻訳帯 */
+    .note-trans {
+      background: var(--red);
+      color: #fff;
+      padding: 0.85rem 1.4rem 0.85rem 3.8rem;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.6;
+      border-top: 2px solid var(--red-dk);
+      border-bottom: 2px solid var(--red-dk);
+      position: relative;
+    }
+
+    .note-trans::before {
+      content: attr(data-flag);
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      font-style: normal;
+    }
+
+    /* アコーディオン */
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: var(--ink);
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.65rem 1.4rem;
+      width: 100%;
+      text-align: left;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .toggle-btn:hover { background: var(--cream); }
+
+    .toggle-btn .arrow {
+      font-size: 0.65rem;
+      margin-left: auto;
       color: var(--gold);
     }
 
-    /* セクション */
-    .entry-body { padding: 0; }
+    /* ブレークダウン本体 */
+    .note-body { display: none; padding: 1.2rem 1.4rem; }
+    .note-body.open { display: block; }
 
-    .sec {
-      padding: 0.9rem 1.2rem;
-      border-bottom: 1px dashed var(--border);
+    .breakdown-title {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .sec:last-child { border-bottom: none; }
+    /* 単語行 */
+    .word-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0.4rem 1.2rem;
+      margin-bottom: 0.8rem;
+      align-items: start;
+    }
 
-    .sec-label {
+    .word-it {
+      font-weight: 700;
+      color: var(--red);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      padding-top: 2px;
+    }
+
+    .word-desc {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--ink);
+    }
+
+    .word-desc .jp-ref {
+      font-style: italic;
+      opacity: 0.6;
+      font-size: 0.83rem;
+    }
+
+    .word-desc .grammar {
+      display: inline-block;
+      background: var(--gold-lt);
+      color: #7a5010;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.65rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 700;
+      padding: 1px 7px;
+      margin-left: 4px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
+    .word-row + .word-row {
+      border-top: 1px dashed var(--border);
+      padding-top: 0.8rem;
+    }
+
+    /* メモ区画 */
+    .memo-block {
+      background: var(--gold-lt);
+      border-left: 3px solid var(--gold);
+      padding: 0.8rem 1rem;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #5a4010;
+    }
+
+    .memo-block .memo-label {
       font-family: 'Noto Sans JP', sans-serif;
       font-size: 0.6rem;
       letter-spacing: 0.25em;
-      color: var(--red);
-      margin-bottom: 0.5rem;
+      color: #8b6820;
+      margin-bottom: 0.4rem;
       text-transform: uppercase;
     }
-
-    .sec p {
-      font-size: 1rem;
-      line-height: 1.85;
-      color: #3a3028;
-    }
-
-    .sec p + p { margin-top: 0.5em; }
-
-    .sec p strong { color: var(--red); font-weight: 700; }
-
-    /* 判断メモ */
-    .sec.memo {
-      background: var(--gold-lt);
-    }
-
-    .sec.memo .sec-label { color: #8b6820; }
-    .sec.memo p { font-size: 0.95rem; color: #5a4010; }
 
     /* ── FOOTER ── */
     footer {
@@ -334,20 +515,21 @@
     }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .layout { flex-direction: column; }
+      .sidebar-col { width: 100%; }
+      .sidebar-block { position: static; }
+      .word-row { grid-template-columns: 1fr; gap: 0.2rem; }
+      .note-header { flex-direction: column; gap: 0.5rem; }
+    }
+
     @media (max-width: 600px) {
       nav { padding: 0.75rem 1.25rem; }
       .nav-links { display: none; }
       .nav-toggle { display: flex; }
       .mobile-drawer { display: flex; }
-
-      .translation-wrap { padding: 100px 1.25rem 4rem; }
-
-      footer {
-        flex-direction: column;
-        gap: 0.8rem;
-        padding: 1.5rem 1.25rem;
-        text-align: center;
-      }
+      .layout { padding: 0 1.25rem; }
+      footer { flex-direction: column; gap: 0.8rem; padding: 1.5rem 1.25rem; text-align: center; }
     }
   </style>
 </head>
@@ -395,124 +577,266 @@
     </ul>
   </div>
 
-  <!-- MAIN -->
-  <main class="translation-wrap">
-    <h1 class="page-heading">Fordítási napló</h1>
-    <span class="page-heading-ja">翻訳ログ</span>
-    <hr class="page-rule" />
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Fordítási napló</h1>
+    <p>原文 → 翻訳 · 語彙と文法の解説</p>
+  </div>
 
-    <!-- 英単語：stigma -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>stigma</h2>
-        <span class="entry-tag">英単語</span>
-      </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">記事</div>
-          <p>「ある特徴や立場に対して、社会が"悪いもの・恥ずかしいもの"として貼るマイナスの印象」。</p>
-          <p>social stigma（社会的偏見） / the stigma around mental illness（精神疾患をめぐる偏見）</p>
-        </div>
-      </div>
-    </div>
+  <!-- LAYOUT -->
+  <div class="layout">
 
-    <!-- 翻訳：moment to moment -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>「このセリフどう訳す問題」</h2>
-        <span class="entry-tag">翻訳</span>
-      </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">原文（ムラサキキリンのチャーリーは様子が変）</div>
-          <p>Time. How it passes, from moment to moment. Haven't you ever noticed how some things change when you aren't looking at them?</p>
-        </div>
-        <div class="sec">
-          <div class="sec-label">翻訳（修正後）</div>
-          <p>時間だ。時間が瞬間から瞬間へと、どう過ぎていくのか。見ていない隙になにかが変わることに気が付いたことはないか？</p>
-        </div>
-        <div class="sec memo">
-          <div class="sec-label">判断メモ</div>
-          <p>「moment to moment」は「瞬間から瞬間へと」が正しい。この話では"瞬間"は区切られた世界を指すため「刻一刻」では意味がずれる。change は過去形ではないのでケアレスミスに注意。</p>
-        </div>
-      </div>
-    </div>
+    <!-- ── メインコンテンツ ── -->
+    <div class="main-col">
 
-    <!-- 英語表現：pseudo-famous -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>pseudo-famous</h2>
-        <span class="entry-tag">英語表現</span>
-      </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">記事</div>
-          <p>Smartless というポッドキャストで出てきた表現。「疑似的に有名、なんとなく有名」という意味。</p>
-          <p><strong>pseudo</strong>＝偽の、いかさまの。最近は「ネットでしか有名じゃない」のニュアンスでよく使われる。pseudonym（ペンネーム）も同語源。</p>
+      <!-- ★ 文法ノート -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">★</div>
+          <div class="note-jp">
+            「私の人生は、その瞬間から始まったような気がする。」
+            <small>文法ノート / 小説翻訳</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇭🇺">
+          「Úgy érzem, mintha az életem attól a pillanattól kezdődött volna.」
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">Úgy érzem</div>
+            <div class="word-desc">
+              「〜のような気がする」<br>
+              <em>érez</em>（感じる）の1人称単数現在形。<br>
+              <span class="jp-ref">英語の "I feel as if..." に相当。</span>
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">mintha</div>
+            <div class="word-desc">
+              「まるで〜のように」<br>
+              仮定・比較の接続詞。後ろには条件法が続く。
+              <span class="grammar">feltételes mód</span>
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">attól a pillanattól</div>
+            <div class="word-desc">
+              「その瞬間から」<br>
+              <em>pillanat</em>（瞬間）の奪格形。<em>attól</em> = そこから。
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">kezdődött volna</div>
+            <div class="word-desc">
+              「始まっていた（だろう）」<br>
+              <em>kezdődik</em>（始まる）の条件法過去形。<em>mintha</em> に呼応する形。
+              <span class="grammar">feltételes múlt</span><br>
+              <span class="jp-ref">英語の "would have begun" に相当。</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 英語表現：Thank you. -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>Thank you. の皮肉用法</h2>
-        <span class="entry-tag">英語表現</span>
-      </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">記事</div>
-          <p>アメリカ英語では「Thank you.」が「最初から知ってた」という終了シグナルとして機能することがある。</p>
-          <p>寄り添いの代わりに「I will try that.」や「You have a better idea.」と<strong>相手が正しいことを言葉にする</strong>ほうが自然な場合が多い。acknowledgement（承認）を示すことが感謝の実質的な代替になっている。</p>
+      <!-- 1 stigma -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">1</div>
+          <div class="note-jp">
+            stigma（スティグマ）
+            <small>英単語 / 語彙</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇯🇵">
+          社会的烙印・偏見。ある立場や特徴に対して社会が貼るマイナスの印象。
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">social stigma</div>
+            <div class="word-desc">社会的偏見。社会全体が特定の属性に向ける否定的な眼差し。</div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">the stigma around mental illness</div>
+            <div class="word-desc">精神疾患をめぐる偏見。<br>
+              <span class="jp-ref">around = 〜をめぐる・〜に関する</span>
+            </div>
+          </div>
+          <div class="memo-block">
+            <div class="memo-label">判断メモ</div>
+            「烙印」と訳すと文語的になる。文脈によって「偏見」「負のイメージ」と柔軟に使い分けると自然。
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 翻訳：solipsistic -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>「このセリフどう訳す問題」</h2>
-        <span class="entry-tag">翻訳</span>
+      <!-- 2 moment to moment -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">2</div>
+          <div class="note-jp">
+            「Time. How it passes, from moment to moment.」
+            <small>小説翻訳 / ムラサキキリンのチャーリーは様子が変</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇯🇵">
+          時間だ。時間が瞬間から瞬間へと、どう過ぎていくのか。
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">from moment to moment</div>
+            <div class="word-desc">
+              「瞬間から瞬間へと」が正確。<br>
+              「刻一刻と」は誤訳に近い——この作品の"瞬間"は区切られた世界を指すため。
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">Haven't you ever noticed how some things <em>change</em></div>
+            <div class="word-desc">
+              change は現在形（原形）。「変わった」（過去形）と訳すのはケアレスミス。
+              <span class="grammar">現在形</span>
+            </div>
+          </div>
+          <div class="memo-block">
+            <div class="memo-label">判断メモ</div>
+            「見ていない隙になにかが変わる<strong>ことに</strong>気が付いたことはないか？」——「変わったことに」ではなく「変わることに」で習慣・法則を表す。
+          </div>
+        </div>
       </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">原文（ムラサキキリンのチャーリーは様子が変）</div>
-          <p>Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy.</p>
-        </div>
-        <div class="sec">
-          <div class="sec-label">翻訳（修正後）</div>
-          <p>独我論的妄想は、しばしば他者の人格の正当性——ときにはその存在——への全般的鈍感さの単なる初期症状とみなされています。</p>
-        </div>
-        <div class="sec memo">
-          <div class="sec-label">判断メモ</div>
-          <p>「solipsistic」は<strong>「独我的」</strong>が正確（自我とその所産だけが実在するという立場）。「唯我的」は単に自己中心的な態度を指すので意味がずれる。「initial manifestation」＝初期症状。「general」の訳は「全般的な」で落ち着いたが、まだ引っかかりあり。</p>
-        </div>
-      </div>
-    </div>
 
-    <!-- 翻訳：even when -->
-    <div class="entry">
-      <div class="entry-head">
-        <h2>「このセリフどう訳す問題」</h2>
-        <span class="entry-tag">翻訳</span>
+      <!-- 3 pseudo-famous -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">3</div>
+          <div class="note-jp">
+            pseudo-famous
+            <small>英語表現 / Smartless ポッドキャスト</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇯🇵">
+          疑似的に有名・なんとなく有名。ネットでしか知られていないニュアンスで使われることが多い。
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">pseudo-</div>
+            <div class="word-desc">
+              形容詞：偽の・いかさまの / 名詞：いかさま師。<br>
+              <span class="jp-ref">pseudonym（ペンネーム）も同語源。</span>
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">acknowledgement</div>
+            <div class="word-desc">
+              承認・確認。英語圏では感謝よりも「相手が正しいと認める」表現の方が敬意を示す場合がある。
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="entry-body">
-        <div class="sec">
-          <div class="sec-label">原文</div>
-          <p>The protagonist kept drawing, even when no one believed in her story.</p>
-        </div>
-        <div class="sec">
-          <div class="sec-label">翻訳</div>
-          <p>誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。</p>
-        </div>
-        <div class="sec memo">
-          <div class="sec-label">判断メモ</div>
-          <p>「believed in」→「信じてもらえない」と受け身にするとニュアンスが出る。<strong>「even when」＝「それでも」</strong>がこの文の軸。「〜のに、彼女は〜した」という対比構造を日本語でも活かすのがポイント。</p>
-        </div>
-      </div>
-    </div>
 
-  </main>
+      <!-- 4 solipsistic -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">4</div>
+          <div class="note-jp">
+            「Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy.」
+            <small>小説翻訳 / ムラサキキリンのチャーリーは様子が変</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇯🇵">
+          独我論的妄想は、しばしば他者の人格の正当性——ときにはその存在——への全般的鈍感さの単なる初期症状とみなされています。
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">solipsistic</div>
+            <div class="word-desc">
+              「独我的」が正確。自我とその所産だけが実在するという哲学的立場。<br>
+              「唯我的」は単に自己中心的な態度を指すため意味がずれる。
+              <span class="grammar">注意</span>
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">initial manifestation</div>
+            <div class="word-desc">初期症状・初発。<em>manifestation</em>（現れ・症状）。</div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">general</div>
+            <div class="word-desc">
+              「全般的な」で落ち着いたが、まだ引っかかりあり。<br>
+              <span class="jp-ref">「広範な」「総体的な」も候補。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 even when -->
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-number">5</div>
+          <div class="note-jp">
+            「The protagonist kept drawing, even when no one believed in her story.」
+            <small>翻訳練習 / 対比構造</small>
+          </div>
+        </div>
+        <div class="note-trans" data-flag="🇯🇵">
+          誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。
+        </div>
+        <button class="toggle-btn" onclick="toggleNote(this)">
+          <span>🔍 語彙・文法解説</span><span class="arrow">▼</span>
+        </button>
+        <div class="note-body">
+          <div class="breakdown-title">語彙解説</div>
+          <div class="word-row">
+            <div class="word-it">even when</div>
+            <div class="word-desc">
+              「それでも〜のとき」。この文の軸となる対比の接続。<br>
+              「〜のに、彼女は〜した」という構造を日本語でも活かすのがポイント。
+            </div>
+          </div>
+          <div class="word-row">
+            <div class="word-it">believed in</div>
+            <div class="word-desc">
+              「信じる」だが、受け身「信じてもらえない」にするとニュアンスが出る。<br>
+              <span class="jp-ref">believe in = 価値・可能性を信じる（単なる believe より強い）</span>
+            </div>
+          </div>
+          <div class="memo-block">
+            <div class="memo-label">判断メモ</div>
+            「kept drawing」→「描き続けた」。継続の kept + 動名詞は「〜し続けた」と素直に訳して問題ない。
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-col -->
+
+    <!-- ── サイドバー ── -->
+    <aside class="sidebar-col">
+      <div class="sidebar-block">
+        <h3>カテゴリ</h3>
+        <a class="sidebar-link" href="#">文法ノート</a>
+        <a class="sidebar-link" href="#">小説翻訳</a>
+        <a class="sidebar-link" href="#">勉強のひとことブログ</a>
+        <a class="sidebar-link" href="#">辞書</a>
+      </div>
+    </aside>
+
+  </div><!-- /layout -->
 
   <!-- FOOTER -->
   <footer>
@@ -525,6 +849,7 @@
   </footer>
 
   <script>
+    // ハンバーガー
     const toggle = document.getElementById('navToggle');
     const drawer = document.getElementById('mobileDrawer');
     toggle.addEventListener('click', () => {
@@ -539,6 +864,19 @@
         document.body.style.overflow = '';
       });
     });
+
+    // アコーディオン
+    function toggleNote(btn) {
+      const body = btn.nextElementSibling;
+      body.classList.toggle('open');
+      btn.querySelector('.arrow').textContent = body.classList.contains('open') ? '▲' : '▼';
+    }
+
+    // スクロール reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.note-card').forEach(el => observer.observe(el));
   </script>
 
 </body>
